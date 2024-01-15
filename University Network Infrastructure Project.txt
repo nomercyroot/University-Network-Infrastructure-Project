@@ -1,0 +1,342 @@
+en
+conf t
+host Fen-R
+int gi 0/3/0
+no sh
+ip add 1.1.1.2 255.255.255.0
+exit
+int gi 0/1
+no sh
+exit
+int gi 0/1.10
+no sh
+enc do 10
+ip add 192.168.10.1 255.255.255.0
+ip help 192.168.100.2
+exit
+int gi 0/1.11
+no sh
+enc do 11
+ip add 192.168.11.1 255.255.255.0
+ip help 192.168.100.2
+exit
+int gi 0/1.12
+no sh
+enc do 12
+ip add 192.168.12.1 255.255.255.0
+ip help 192.168.100.2
+exit
+int gi 0/1.19
+no sh
+enc do 19
+ip add 192.168.19.1 255.255.255.0
+ip help 192.168.100.2
+exit
+router ospf 100
+net 1.1.1.0 0.0.0.255 area 0
+net 192.168.10.0 0.0.0.255 area 0
+net 192.168.11.0 0.0.0.255 area 0
+net 192.168.12.0 0.0.0.255 area 0
+net 192.168.19.0 0.0.0.255 area 0
+exit
+
+************************************
+en
+conf t
+host Ede-R
+int gi 0/3/0
+no sh
+ip add 1.1.1.3 255.255.255.0
+exit
+int gi 0/1
+no sh
+exit
+int gi 0/1.20
+no sh
+enc do 20
+ip add 192.168.20.1 255.255.255.0
+ip help 192.168.100.2
+exit
+int gi 0/1.21
+no sh
+enc do 21
+ip add 192.168.21.1 255.255.255.0
+ip help 192.168.100.2
+exit
+int gi 0/1.22
+no sh
+enc do 22
+ip add 192.168.22.1 255.255.255.0
+ip help 192.168.100.2
+exit
+int gi 0/1.29
+no sh
+enc do 29
+ip add 192.168.29.1 255.255.255.0
+ip help 192.168.100.2
+exit
+router ospf 100
+net 1.1.1.0 0.0.0.255 area 0
+net 192.168.20.0 0.0.0.255 area 0
+net 192.168.21.0 0.0.0.255 area 0
+net 192.168.22.0 0.0.0.255 area 0
+net 192.168.29.0 0.0.0.255 area 0
+exit
+
+*********************************
+
+en
+conf t
+host BiM-R
+int gi 0/3/0
+no sh
+ip add 1.1.1.1 255.255.255.0
+exit
+int gi 0/1
+no sh
+exit
+int gi 0/1.100
+no sh
+enc do 100
+ip add 192.168.100.1 255.255.255.0
+exit
+int gi 0/1.101
+no sh
+enc do 101
+ip add 192.168.101.1 255.255.255.0
+exit
+int gi 0/1.102
+no sh
+enc do 102
+ip add 192.168.102.1 255.255.255.0
+exit
+int gi 0/1.109
+no sh
+enc do 109
+ip add 192.168.109.1 255.255.255.0
+exit
+router ospf 100
+net 1.1.1.0 0.0.0.255 area 0
+net 192.168.100.0 0.0.0.255 area 0
+net 192.168.101.0 0.0.0.255 area 0
+net 192.168.102.0 0.0.0.255 area 0
+net 192.168.109.0 0.0.0.255 area 0
+exit
+
+***********************************
+en
+conf t
+host FEN-OMG
+vlan 10
+vlan 11
+vlan 12
+vlan 19
+exit
+vtp mode server
+vtp dom sinan
+vtp pass cisco
+int ran gi 1/0/1-5
+sw mod tr
+exit
+int gi 1/0/4
+sw tr nat vlan 19
+exit
+int vlan 19
+no sh
+ip add 192.168.19.2 255.255.255.0
+exit
+ip default-g 192.168.19.1
+
+**********************************
+
+en
+conf t
+host EDE-OMG
+vlan 20
+vlan 21
+vlan 22
+vlan 29
+exit
+vtp mode server
+vtp dom sinan
+vtp pass cisco
+int ran gi 1/0/1-5
+sw mod tr
+exit
+int gi 1/0/4
+sw tr nat vlan 29
+exit
+int vlan 29
+no sh
+ip add 192.168.29.2 255.255.255.0
+exit
+ip default-g 192.168.29.1
+
+***********************************
+
+en
+conf t
+host BiM-OMG
+vlan 100
+vlan 101
+vlan 102
+vlan 109
+exit
+int gi 1/0/5
+sw mod tr
+exit
+int vlan 109
+no sh
+ip add 192.168.109.2 255.255.255.0
+exit
+ip default-g 192.168.109.1
+int gi 1/0/1
+sw mod acc
+sw acc vlan 100
+exit
+int gi 1/0/2
+sw mod acc
+sw acc vlan 101
+exit
+int gi 1/0/3
+sw mod acc
+sw acc vlan 102
+exit
+
+**********************************
+en
+conf t
+host F-Kat1
+int gi 0/1
+sw mod tr
+exit
+vtp mode client
+vtp pass cisco
+int fa 0/1
+sw mod acc
+sw acc vlan 10
+exit
+int vlan 19
+no sh
+ip add 192.168.19.3 255.255.255.0
+exit
+ip default-g 192.168.19.1
+int gi 0/2
+sw mod tr
+sw tr nat vlan 19
+exit
+
+**********************************
+en
+conf t
+host F-Kat2
+int gi 0/1
+sw mod tr
+exit
+vtp mode client
+vtp pass cisco
+int fa 0/1
+sw mod acc
+sw acc vlan 11
+exit
+int vlan 19
+no sh
+ip add 192.168.19.4 255.255.255.0
+exit
+ip default-g 192.168.19.1
+int gi 0/2
+sw mod tr
+sw tr nat vlan 19
+exit
+
+**********************************
+en
+conf t
+host F-Kat3
+int gi 0/1
+sw mod tr
+exit
+vtp mode client
+vtp pass cisco
+int fa 0/1
+sw mod acc
+sw acc vlan 12
+exit
+int vlan 19
+no sh
+ip add 192.168.19.5 255.255.255.0
+exit
+ip default-g 192.168.19.1
+int gi 0/2
+sw mod tr
+sw tr nat vlan 19
+exit
+
+**********************************
+en
+conf t
+host E-Kat1
+int gi 0/1
+sw mod tr
+exit
+vtp mode client
+vtp pass cisco
+int fa 0/1
+sw mod acc
+sw acc vlan 20
+exit
+int vlan 29
+no sh
+ip add 192.168.29.3 255.255.255.0
+exit
+ip default-g 192.168.29.1
+int gi 0/2
+sw mod tr
+sw tr nat vlan 29
+exit
+
+**********************************
+en
+conf t
+host E-Kat2
+int gi 0/1
+sw mod tr
+exit
+vtp mode client
+vtp pass cisco
+int fa 0/1
+sw mod acc
+sw acc vlan 21
+exit
+int vlan 29
+no sh
+ip add 192.168.29.4 255.255.255.0
+exit
+ip default-g 192.168.29.1
+int gi 0/2
+sw mod tr
+sw tr nat vlan 29
+exit
+
+**********************************
+en
+conf t
+host E-Kat3
+int gi 0/1
+sw mod tr
+exit
+vtp mode client
+vtp pass cisco
+int fa 0/1
+sw mod acc
+sw acc vlan 22
+exit
+int vlan 29
+no sh
+ip add 192.168.29.5 255.255.255.0
+exit
+ip default-g 192.168.29.1
+int gi 0/2
+sw mod tr
+sw tr nat vlan 29
+exit

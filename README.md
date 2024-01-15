@@ -1,0 +1,2 @@
+# University-Network-Infrastructure-Project
+ These Cisco configurations define network setups representing three different regions: "Fen-R," "Ede-R," and "BiM-R." Each includes specific VLANs, IP subnets, and OSPF communication. Additionally, these configurations utilize VTP to share VLAN information among switches and configure ports for facilitating communication between computers. The project aims to effectively establish a network infrastructure using Cisco routers and switches.
